@@ -62,22 +62,10 @@ public class CsvStockDiv
 				companyList.readRecord();
 			
 			int no = 0; //No.
-			//boolean bbh = false;
-			//while(bbh)
-			//while(companyList.readRecord() & i < 2)
 			int fileIndex = 1;
 			for(int i = 78; i < 844; i++)
 			{
 				csvOutput = new CsvWriter(new FileWriter(outputFile, true), ',');
-				/*
-				if(i % 20 == 0 & i > 20)
-				{
-					csvOutput.close(); //Finish editing previous file
-					FileUtils.copyFile(new File(outputFiles[fileIndex]), 
-							new File(outputFiles[++fileIndex]));
-					
-					csvOutput = new CsvWriter(new FileWriter(outputFiles[fileIndex], true), ',');
-				}*/
 				
 				companyList.readRecord();
 				stockID  = companyList.get("ID");
@@ -171,13 +159,12 @@ public class CsvStockDiv
 		{
 			stockName = stockName + yTitle.charAt(i);
 			if(yTitle.charAt(i) == '>')
-				//Stock name
 				stockName = "";
 		}
 		
 		//Data from goodinfo.com, used to retrieve price, year, dividends and bps
 		Connection goodConnection = Jsoup.connect("http://www.goodinfo.tw/stockinfo/StockBzPerformance.asp?STOCK_ID=" + stockID + "&YEAR_PERIOD=9999&RPT_CAT=M_YEAR")
-									.userAgent("Mozilla"); 
+						.userAgent("Mozilla"); 
 		goodConnection.timeout(0);
 		Document doc = goodConnection.get();
 		Element content = doc.body();
@@ -202,7 +189,6 @@ public class CsvStockDiv
 		for(int i = 0; year.equals("0") & i < links.size() - 1; i++)
 		{
 			String yearCheck = links.get(i + 1).text();
-			//System.out.println(yearCheck);
 			if(links.get(i).text().equals("最低") & isInt(yearCheck))
 			{
 				year = links.get(i + 1).text();
@@ -223,7 +209,6 @@ public class CsvStockDiv
 				}
 			}
 		}
-		//System.out.println("year = " + year);
 		
 		//Retrieve earliestAvailYear
 		for(int i = 0; i < links.size(); i++)
